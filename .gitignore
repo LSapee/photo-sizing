@@ -9,3 +9,5 @@ jspm_packages
 .esbuild
 
 .envrc
+.idea
+.nvmrc
