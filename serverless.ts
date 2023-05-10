@@ -11,7 +11,8 @@ const config: AWS = {
         environment:{
             BUCKET_NAME:process.env.BUCKET_NAME!,
             ROOT_DOMAIN:process.env.ROOT_DOMAIN!,
-            ACM_CERTIFICATE_ARN: process.env.ACM_CERTIFICATE_ARN!
+            ACM_CERTIFICATE_ARN: process.env.ACM_CERTIFICATE_ARN!,
+            DISTRIBUTION_ID : {Ref:"PhotoCdn"},
         },
         iam:{
             role:{
@@ -26,6 +27,11 @@ const config: AWS = {
                         Effect:'Allow',
                         Resource:`arn:aws:s3:::${process.env.BUCKET_NAME}/photo/*`,
                     },
+                    {
+                        Action: ['cloudfront:CreateInvalidation'],
+                        Effect:'Allow',
+                        Resource: "*",
+                    }
                 ]
             },
         },
@@ -41,12 +47,15 @@ const config: AWS = {
     functions: {
         optimizeAndUpload: {
             handler: "handler.optimizeAndUpload",
+            timeout:900,
             events: [
                 {
-                    httpApi: {
-                        path: "/optimizeAndUpload",
-                        method: "put",
-                    },
+                   s3:{
+                       bucket:process.env.BUCKET_NAME!,
+                       event : "s3:ObjectCreated:*",
+                       rules:[{prefix:"raw/"}],
+                       existing:true,
+                   }
                 },
             ],
         },
