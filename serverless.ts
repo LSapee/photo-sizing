@@ -11,6 +11,7 @@ const config: AWS = {
         environment:{
             BUCKET_NAME:process.env.BUCKET_NAME!,
             ROOT_DOMAIN:process.env.ROOT_DOMAIN!,
+            SUB_DOMAIN:process.env.SUB_DOMAIN!,
             ACM_CERTIFICATE_ARN: process.env.ACM_CERTIFICATE_ARN!,
             DISTRIBUTION_ID : {Ref:"PhotoCdn"},
         },
@@ -35,6 +36,14 @@ const config: AWS = {
                 ]
             },
         },
+        httpApi:{
+            cors:{
+                allowedOrigins:[process.env.CORS_ALLOW_ORIGIN!],
+                allowedMethods:["GET","POST","PUT","DELETE"],
+                allowedHeaders:["Content-Type"],
+                allowCredentials:true,
+            }
+        }
     },
     custom:{
         scripts:{

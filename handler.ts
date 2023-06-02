@@ -18,7 +18,7 @@ export const getSignedURL: APIGatewayProxyHandlerV2<unknown> =async ()=>{
         Key: `raw/${photoKey}.jpg`,
         Expires: 5 * 60,
     });
-    const cdnURL = `https://${process.env.ROOT_DOMAIN}/photo/${photoKey}.jpg`;
+    const cdnURL = `https://${process.env.SUB_DOMAIN}.${process.env.ROOT_DOMAIN}/photo/${photoKey}.jpg`;
     return {cdnURL,uploadURL};
 };
 export const optimizeAndUpload: S3Handler = async (event) => {

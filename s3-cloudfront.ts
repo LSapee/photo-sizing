@@ -60,7 +60,7 @@ const resources = {
                         TargetOriginId: "S3Origin",
                         ViewerProtocolPolicy: "redirect-to-https",
                     },
-                    Aliases: [`${process.env.ROOT_DOMAIN}`],
+                    Aliases: [`${process.env.SUB_DOMAIN}.${process.env.ROOT_DOMAIN}`],
                     ViewerCertificate: {
                         AcmCertificateArn: process.env.ACM_CERTIFICATE_ARN!,
                         MinimumProtocolVersion: "TLSv1.2_2021",
@@ -77,7 +77,7 @@ const resources = {
                     HostedZoneId: "Z2FDTNDATAQYW2",
                 },
                 HostedZoneName: `${process.env.ROOT_DOMAIN}.`,
-                Name: `${process.env.ROOT_DOMAIN}.`,
+                Name: `${process.env.SUB_DOMAIN}.${process.env.ROOT_DOMAIN}.`,
                 Type: "A",
             },
         },
